@@ -40,4 +40,30 @@
         - ```pid_t vfork(void);```(SUSv3标记为弃用、SUSv4被删除)与```pid_t fork(void);```的区别
             - 并不将父进程的地址空间完全复制到子进程中，在子进程调用```exec```或```exit```之前，它在父进程的空间中运行。
             - ```pid_t vfork(void);```保证子进程先运行，直到子进程调用```exec```或```exit```之后(注意要避免产生死锁)。
+        - ```wait```函数族
+            ```c
+            pid_t wait(int *wstatus);
+            pid_t waitpid(pid_t pid, int *wstatus, int options);
+            int waitid(idtype_t idtype, id_t id, siginfo_t *infop, int options);
+            ```
+            - 在一个子进程终止前，```wait```使其调用者阻塞，```waitpid```有一个可选项立即返回0，使其调用者不阻塞。
+            - ```waitpid```可以控制所等待的进程
+            - ```waitid```与```waitpid```类似，但提供了更多的灵活性。
+            - 可以使用fork两次的技巧使得父进程不用阻塞等待其子进程返回，也不会产生僵死(zombie)进程。
+        - ```exec```函数族
+            ```c
+            int execl(const char *path, const char *arg, ...
+                            /* (char  *) NULL */);
+            int execlp(const char *file, const char *arg, ...
+                            /* (char  *) NULL */);
+            int execle(const char *path, const char *arg, ...
+                            /*, (char *) NULL, char * const envp[] */);
+            int execv(const char *path, char *const argv[]);
+            int execvp(const char *file, char *const argv[]);
+            int execvpe(const char *file, char *const argv[], char *const envp[]);
+            int fexecve(int fd, char *const argv[], char *const envp[]);                
+            ```
+            - 函数名带p的表示该函数取```const char *file```作为参数，并且到```PATH```环境变量指定的目录中寻找可执行文件，如果寻找到的不是可执行文件则作为shell脚本交给```/bin/sh```执行。
+            - ```l```表示参数表，```v```表示矢量,两者互斥。
+            - ```e```表示取```char *const envp[]```而不使用当前环境。
 - 定义Word多级列表，设计论文骨架
