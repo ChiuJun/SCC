@@ -67,3 +67,38 @@
             - ```l```表示参数表，```v```表示矢量,两者互斥。
             - ```e```表示取```char *const envp[]```而不使用当前环境。
 - 定义Word多级列表，设计论文骨架
+## 0308日志
+- 测试ucc对于动态链接库的支持  
+    ucc将'-'开头的未识别选项传递给连接器LD
+    1. 支持通过gcc的-shared -fPIC选项生成动态链接库
+    2. 支持通过gcc的-L -l选项使用动态链接库
+    3. 不识别.so文件
+    4. 将ucc生成的.o文件与ucc生成的.so文件链接时会报错
+    ```bash
+    # .
+    # ├── Makefile
+    # ├── hello.c
+    # ├── test.c
+    # ├── test.h
+    # └── test.sh
+    gcc -shared -fPIC -o libg.so test.c -m32 
+    ucc -shared -fPIC -o libu.so test.c
+    gcc -c hello.c -o g.o -m32 
+    ucc -c hello.c -o u.o
+    sudo cp libg.so /usr/lib32
+    sudo cp libu.so /usr/lib32
+
+    gcc -o guu u.o -L/usr/lib32 -lu -m32
+    gcc -o gug u.o -L/usr/lib32 -lg -m32
+    gcc -o ggu g.o -L/usr/lib32 -lu -m32
+    gcc -o ggg g.o -L/usr/lib32 -lg -m32
+    ucc -o uuu u.o -L/usr/lib32 -lu
+    ucc -o uug u.o -L/usr/lib32 -lg
+    ucc -o ugu g.o -L/usr/lib32 -lu
+    ucc -o ugg g.o -L/usr/lib32 -lg
+
+    gcc -o gg hello.c ./libg.so -m32
+    gcc -o gu hello.c ./libu.so -m32
+    ucc -o ug hello.c ./libg.so
+    ucc -o uu hello.c ./libu.so
+    ```
