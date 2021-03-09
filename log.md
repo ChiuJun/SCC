@@ -69,11 +69,11 @@
 - 定义Word多级列表，设计论文骨架
 ## 0308日志
 - 测试ucc对于动态链接库的支持  
-    ucc将'-'开头的未识别选项传递给连接器LD
-    1. 支持通过gcc的-shared -fPIC选项生成动态链接库
-    2. 支持通过gcc的-L -l选项使用动态链接库
-    3. 不识别.so文件
-    4. 将ucc生成的.o文件与ucc生成的.so文件链接时会报错
+    ucc将```'-'```开头的未识别选项传递给连接器LD
+    - 支持通过gcc的-shared -fPIC选项生成动态链接库
+    - 支持通过gcc的-L -l选项使用动态链接库
+    - 不识别.so文件
+    - 将ucc生成的.o文件与ucc生成的.so文件链接时会报错
     ```bash
     # .
     # ├── Makefile
@@ -102,3 +102,11 @@
     ucc -o ug hello.c ./libg.so
     ucc -o uu hello.c ./libu.so
     ```
+- 静态库没有进行测试
+## 0309日志
+- 构建工具CMake
+    - 使用```add_compile_options()```指定编译选项时会连接器会报错
+        > /usr/bin/ld: i386 architecture of input file `CMakeFiles/hello.dir/hello.c.o' is incompatible with i386:x86-64 output 
+    - 使用```make VERBOSE=1```发现CMake没有给ld连接器传入适当的参数
+    - 改用```set(CMAKE_C_FLAGS "-m32 ${CMAKE_C_FLAGS}")```问题解决
+- 库函数```int access(const char *pathname, int mode);```，指定参数```mode```为```R_OK```测试指定文件是否存在且具备读权限。
