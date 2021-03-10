@@ -1,4 +1,4 @@
-/*
+/**
  * Created by LJChi on 2021/3/8.
  */
 
@@ -7,6 +7,7 @@
 #include <string.h>
 #include <assert.h>
 #include <unistd.h>
+#include <sys/wait.h>
 #include "scc.h"
 
 static struct option Option;
@@ -47,7 +48,7 @@ static void *Alloc(size_t size) {
     return ptr;
 }
 
-/*
+/**
  * 在 @list 尾部添加一个List节点，值为 @str;
  */
 static List ListAppend(List list, char *str) {
@@ -109,7 +110,7 @@ static char *GenFileName(char *filename, char *extname) {
     return result;
 }
 
-/*
+/**
  * TODO: 暂时不支持.so文件
  */
 static int GetFileType(char *filename) {
@@ -194,7 +195,7 @@ static void ParseCmdLine(int argc, char *argv[]) {
             Option.a_flags = ListAppend(Option.a_flags, argv[i]);
         } else if (!strncmp(argv[i], "-Wl,", 4)) {
             Option.l_flags = ListAppend(Option.l_flags, argv[i]);
-        } else if (argv[i][0] == '-') {/*所有其他选项都传递给连接器*/
+        } else if (argv[i][0] == '-') {/**所有其他选项都传递给连接器*/
             Option.l_flags = ListAppend(Option.l_flags, argv[i]);
         } else {
             AddFile(argv[i]);
@@ -209,13 +210,13 @@ static int ExecuteCommand(char **cmd) {
     if (pid == -1) {
         fprintf(stderr, "fork error,no more processes\n");
         return 100;
-    } else if (pid == 0) {/*子进程*/
+    } else if (pid == 0) {/**子进程*/
         execv(cmd[0], cmd);
         perror(cmd[0]);
         fflush(stdout);
         exit(100);
     }
-    /*父进程*/
+    /**父进程*/
     ret = waitpid(pid, &status, 0);
     status = ret == -1 ? ret : status;
     if (status & 0xff) {
@@ -239,9 +240,9 @@ static void PrintCommand(void) {
 static char **GenCommand(char **cmd, List flags, List in_files, List out_files) {
     int i, j;
     List listArr[3], tmpList;
-    listArr[0] = flags;/*$1*/
-    listArr[1] = in_files;/*$2*/
-    listArr[2] = out_files;/*$3*/
+    listArr[0] = flags;/**$1*/
+    listArr[1] = in_files;/**$2*/
+    listArr[2] = out_files;/**$3*/
 
     for (i = j = 0; cmd[i] != NULL; ++i) {
         if (strchr(cmd[i], '$') != NULL) {
@@ -286,7 +287,8 @@ static int InvokeProgram(int filetype) {
         case PP_FILE:
             for (ptr = Option.c_files; ptr != NULL; ptr = ptr->next) {
                 if (Option.output_file_type == PP_FILE && Option.out_file_name) {
-                    /*Option.output_file_type==PP_FILE时
+                    /**
+                     * Option.output_file_type==PP_FILE时
                      * GetListLen(Option.c_files)==1
                      * */
                     filename = Option.out_file_name;
@@ -335,12 +337,16 @@ static int InvokeProgram(int filetype) {
             Option.o_files = ListCombine(OBJFIles, Option.o_files);
             break;
         case LIB_FILE:
-            /*TODO:暂时不支持生成.so*/
+            /**TODO:暂时不支持生成.so*/
             return 0;
             break;
         case EXE_FILE:
             if (Option.out_file_name == NULL) {
                 Option.out_file_name = GenFileName("a.out", ExtNames[EXE_FILE]);
+            }
+            if (Option.o_files == NULL) {
+                fprintf(stderr,"no input files\n");
+                exit(-1);
             }
             for (ptr = Option.l_flags, Option.l_flags = NULL; ptr != NULL; ptr = ptr->next) {
                 Option.l_flags = ListCombine(ParseOption(ptr->str), Option.l_flags);
@@ -351,24 +357,6 @@ static int InvokeProgram(int filetype) {
     }
 
     return status;
-}
-
-static void TestScc(void) {
-    assert(0 == GetFileType("test.c"));
-    assert(1 == GetFileType("test.i"));
-    assert(2 == GetFileType("test.s"));
-    assert(3 == GetFileType("test.o"));
-    assert(4 == GetFileType("test.so"));
-    assert(-1 == GetFileType("test.a"));
-    assert(!strcmp(GenFileName("test.c", ".o"), "test.o"));
-    assert(!strcmp(GenFileName("test.test.c", ".o"), "test.test.o"));
-    assert(!strcmp(GenFileName("test", ".o"), "test.o"));
-    assert(!strcmp(GenFileName("test.cpp", ".o"), "test.o"));
-    assert(!strcmp(GenFileName("test.c", NULL), "test.c"));
-    assert(!strcmp(GenFileName("test.c", 0), "test.c"));
-    assert(!strcmp(GenFileName("test.c", ".so"), "test.so"));
-    assert(!strcmp(GenFileName("test.c", "."), "test."));
-    exit(0);
 }
 
 int main(int argc, char *argv[]) {
@@ -389,7 +377,7 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "cannot specify -o with -c, -S or -E with multiple files\n");
         return -1;
     }
-
+    
     for (filetype = PP_FILE; filetype <= Option.output_file_type; ++filetype) {
         if (InvokeProgram(filetype)) {
             CleanFiles();
