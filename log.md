@@ -110,3 +110,32 @@
     - 使用```make VERBOSE=1```发现CMake没有给ld连接器传入适当的参数
     - 改用```set(CMAKE_C_FLAGS "-m32 ${CMAKE_C_FLAGS}")```问题解决
 - 库函数```int access(const char *pathname, int mode);```，指定参数```mode```为```R_OK```测试指定文件是否存在且具备读权限。
+## 0313日志
+### x86汇编语言
+> 一个x86-64的中央处理单元(CPU)包含一组16个存储64位值的通用目的寄存器，这些寄存器用来存储整数数据和指针。最初的8086中有8个16位的寄存器，每个寄存器都有特殊的用途。扩展到IA32时，这些寄存器也扩展为32位寄存器，标号从%eax到%esp，扩展到x86-64后，原来的8个寄存器扩展成64位，标号从%rax到%rsp。除此之外，还增加了8个新的寄存器，它们的标号是按照新的命名规则定制的，从%r8到%r15。  
+
+### _cdecl  
+- cdecl(C declaration，即C声明)是源起C语言的一种调用约定，也是C语言的事实上的标准。在x86架构上，其内容包括：
+1. 函数实参在线程栈上按照从右至左的顺序依次压栈。
+2. 函数结果保存在寄存器EAX/AX/AL中
+3. 浮点型结果存放在寄存器ST0中
+4. 编译后的函数名前缀以一个下划线字符
+5. 调用者负责从线程栈中弹出实参（即清栈）
+6. 8比特或者16比特长的整形实参提升为32比特长。
+7. 受到函数调用影响的寄存器（volatile registers）：EAX, ECX, EDX, ST0 - ST7, ES, GS
+8. 不受函数调用影响的寄存器： EBX, EBP, ESP, EDI, ESI, CS, DS
+9. RET指令从函数被调用者返回到调用者（实质上是读取寄存器EBP所指的线程栈之处保存的函数返回地址并加载到IP寄存器）  
+
+| 寄存器名 | 约定 | 备注 |
+| :-----: | :--: | :-- |
+| %eax | 易失寄存器（caller saved） | Accumulator |
+| %ebx | 保值寄存器（callee saved） | Base |
+| %ecx | 易失寄存器（caller saved） | Counter |
+| %edx | 易失寄存器（caller saved） | Data |
+| %esi | 保值寄存器（callee saved） | Source Index  |
+| %edi | 保值寄存器（callee saved） | Destination Index  |
+| %ebp | 保值寄存器（callee saved） | Base Pointer |
+| %esp | 保值寄存器（callee saved） | Stack Pointer |
+### 浮点数操作
+- 可以参考Intel® 64 and IA-32 Architectures Software Developer’s Manual的[CHAPTER 8 PROGRAMMING WITH THE X87 FPU](https://software.intel.com/content/www/us/en/develop/articles/intel-sdm.html)
+- 好繁琐
