@@ -344,10 +344,6 @@ static int InvokeProgram(int filetype) {
             if (Option.out_file_name == NULL) {
                 Option.out_file_name = GenFileName("a.out", ExtNames[EXE_FILE]);
             }
-            if (Option.o_files == NULL) {
-                fprintf(stderr,"no input files\n");
-                exit(-1);
-            }
             for (ptr = Option.l_flags, Option.l_flags = NULL; ptr != NULL; ptr = ptr->next) {
                 Option.l_flags = ListCombine(ParseOption(ptr->str), Option.l_flags);
             }
@@ -370,6 +366,11 @@ int main(int argc, char *argv[]) {
     commands[0] = NULL;
     Option.output_file_type = EXE_FILE;
     ParseCmdLine(--argc, ++argv);
+    if (!Option.c_files&&!Option.p_files&&!Option.a_files&&
+        !Option.o_files&&!Option.l_files) {
+        fprintf(stderr,"no input files\n");
+        return -1;
+    }
     if (Option.out_file_name && Option.output_file_type != EXE_FILE &&
         (GetListLen(Option.c_files) > 1 ||
          GetListLen(Option.p_files) > 1 ||
@@ -377,7 +378,7 @@ int main(int argc, char *argv[]) {
         fprintf(stderr, "cannot specify -o with -c, -S or -E with multiple files\n");
         return -1;
     }
-    
+
     for (filetype = PP_FILE; filetype <= Option.output_file_type; ++filetype) {
         if (InvokeProgram(filetype)) {
             CleanFiles();
