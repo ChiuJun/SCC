@@ -24,7 +24,7 @@ TOKEN(TK_SEMICOLON,     ";")
 TOKEN(TK_IF,        "if")
 TOKEN(TK_ELSE,      "else")
 TOKEN(TK_WHILE,     "while")
-
+TOKEN(TK_DO, "do")
 //  AbstractSyntaxTreeNode?
 //	In fact, we need to define NodeKind for AstNode, not TokenKind here.
 //	But to keep it simple here. we do use TokenKind for AstNode->op.

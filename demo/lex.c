@@ -18,6 +18,7 @@ static KeywordInfo keywords[] = {
 	{TK_IF,"if"},
 	{TK_ELSE,"else"},
 	{TK_WHILE,"while"},
+    {TK_DO,"do"}
 };
 static char * tokenNames[] = {
 	#define	TOKEN(kind,name)	name,

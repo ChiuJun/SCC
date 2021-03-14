@@ -17,12 +17,13 @@ int snprintf(char *str, size_t size, const char *format, ...);
 static AstStmtNodePtr ExpressionStatement(void);
 static AstStmtNodePtr IfStatement(void);
 static AstStmtNodePtr WhileStatement(void);
+static AstStmtNodePtr DoStatement(void);
 
 static int isPrefixOfStatement(TokenKind tk);
 static int NewLabel(void);
 /////////////////////////////////////////////////////////////////////
 static TokenKind prefixOfStmt[] = {
-	TK_ID,TK_IF,TK_WHILE,TK_LBRACE,TK_INT
+	TK_ID,TK_IF,TK_WHILE,TK_DO,TK_LBRACE,TK_INT
 };
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -146,6 +147,28 @@ static AstStmtNodePtr WhileStatement(void){
 	whileStmt->kids[1] = CreateLabelNode();
 	return whileStmt;
 }
+/**
+ * kids[0] label_loop
+ *
+ * label_loop:
+ *      thenStmt
+ *      if(expr) goto label_loop
+ */
+static AstStmtNodePtr DoStatement(void){
+    AstStmtNodePtr doStmt = NULL;
+    doStmt = CreateStmtNode(TK_DO);
+
+    Expect(TK_DO);
+    doStmt->thenStmt = Statement();
+    Expect(TK_WHILE);
+    Expect(TK_LPAREN);
+    doStmt->expr = Expression();
+    Expect(TK_RPAREN);
+    Expect(TK_SEMICOLON);
+    doStmt->kids[0] = CreateLabelNode();
+
+    return doStmt;
+}
 
 //	comStmt->next ----> list of statements
 AstStmtNodePtr CompoundStatement(void){
@@ -172,6 +195,8 @@ AstStmtNodePtr Statement(void){
 		return IfStatement();
 	case TK_WHILE:
 		return WhileStatement();
+    case TK_DO:
+        return DoStatement();
 	case TK_LBRACE:
 		return CompoundStatement();
 	case TK_ID:
@@ -210,6 +235,11 @@ void VisitStatementNode(AstStmtNodePtr stmt){
 		printf("\tgoto %s \n",stmt->kids[0]->value.name);
 		printf("%s:\n",stmt->kids[1]->value.name);
 		break;
+    case TK_DO:
+        printf("%s:\n",stmt->kids[0]->value.name);
+        VisitStatementNode(stmt->thenStmt);
+        printf("\tif(%s) goto %s\n",stmt->expr->value.name,stmt->kids[0]->value.name);
+        break;
 	case TK_COMPOUND:
 		while(stmt->next){
 			VisitStatementNode(stmt->next);

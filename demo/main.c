@@ -4,7 +4,7 @@
 #include "include/decl.h"
 #include "include/stmt.h"
 
-static const char * srcCode = "{int (*f(int,int,int))[4];}";
+static const char * srcCode = "{int (*arr)[3][5];}";
 static char NextCharFromMem(void){
 	int ch = *srcCode;
 	srcCode++;
