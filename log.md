@@ -139,3 +139,28 @@
 ### 浮点数操作
 - 可以参考Intel® 64 and IA-32 Architectures Software Developer’s Manual的[CHAPTER 8 PROGRAMMING WITH THE X87 FPU](https://software.intel.com/content/www/us/en/develop/articles/intel-sdm.html)
 - 好繁琐
+
+## 0320日志
+### C 文件操作
+- ```FILE *fopen(const char *pathname, const char *mode);```
+> The  fopen()  function  opens the file whose name is the string pointed to by pathname and associates a stream with it.
+- ```int fseek(FILE *stream, long offset, int whence);```  
+    ```long ftell(FILE *stream);```
+> The  fseek() function sets the file position indicator for the stream pointed to by stream.  The new position,measured in bytes, is obtained by adding offset bytes to the position specified by whence.  If whence  is  set to  SEEK_SET,  SEEK_CUR,  or  SEEK_END,  the offset is relative to the start of the file, the current position indicator, or end-of-file, respectively.  A successful call to the fseek()  function  clears  the  end-of-file indicator for the stream and undoes any effects of the ungetc(3) function on the same stream.  
+The  ftell()  function  obtains  the current value of the file position indicator for the stream pointed to by stream.
+- ```size_t fread(void *ptr, size_t size, size_t nmemb, FILE *stream);```
+> The  function  fread()  reads nmemb items of data, each size bytes long, from the stream pointed to by stream,storing them at the location given by ptr.
+### C语言中的类型
+1. object types
+2. function types
+3. incomplete types
+
+- 基本类型(basic types)
+    - char, short int, int, long int
+    - float, double, long double
+- 派生类型(derived types)
+    - array type
+    - structure type
+    - union type
+    - function type
+    - pointer type
