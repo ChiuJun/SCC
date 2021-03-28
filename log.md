@@ -164,3 +164,14 @@ The  ftell()  function  obtains  the current value of the file position indicato
     - union type
     - function type
     - pointer type
+
+- 类型提升
+    - 在ANSI C中，如果使用了适当的函数原型，类型提升便不会发生，否则(无函数原型或者对应的参数不匹配)也会发生。
+
+## 0328日志
+### 内存管理模块
+- 对齐要求
+> 3.1 alignment A requirement that objects of a particular type be located on storage boudaries with addresses that are particular multiplies of a byte address.
+- 聚合初始化
+> The initializer for a structure or union object that has automatic storage duration either shall be a initializer list as described below, or shall be a single expression that has compatible struct or union type. In latter case, the initial calue of the object is that of the expression.
+- 程序分为3个Heap：ProgramHeap、FileHeap、StringHeap
