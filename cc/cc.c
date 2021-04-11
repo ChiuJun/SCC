@@ -2,7 +2,6 @@
 // Created by LJChi on 2021/3/20.
 //
 #include <stdio.h>
-#include "alloc.h"
 #include "cc.h"
 
 /*用于指向当前操作的Heap:ProgramHeap或者FileHeap*/

@@ -1,11 +1,8 @@
 //
 // Created by LJChi on 2021/3/28.
 //
-#include <stddef.h>
-#include <stdlib.h>
+
 #include "cc.h"
-#include "alloc.h"
-#include "error.h"
 
 /*空闲内存块*/
 static struct memory_block *FreeBlocks;

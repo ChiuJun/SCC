@@ -32,6 +32,9 @@ union align_util {
 #define MEMORY_BLOCK_SIZE (4 * 1024)
 #define HEAP(hp) struct heap hp = { &hp.headBlock }
 
+/*
+ * 这几个宏都应该传入指针
+ * */
 #define DO_ALLOC(p) ((p) = HeapAllocate(CurrentHeap, sizeof *(p)))
 #define ALLOC(p) memset(DO_ALLOC(p), 0, sizeof *(p))
 #define CALLOC(p) memset(DO_ALLOC(p), 0, sizeof *(p))
