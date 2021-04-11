@@ -18,7 +18,7 @@ typedef struct vector {
 } *Vector;
 
 /*返回v指向的struct vector实际使用的大小*/
-#define VECTOR_SIZE(v) (v->size)
+#define GET_VECTOR_SIZE(v) (v->size)
 
 #define INSERT_VECTOR_ITEM(v, item) \
 do{                                 \
@@ -42,7 +42,7 @@ do{                                 \
     }                               \
 }
 
-Vector CreateVector(int size);
+Vector CreateVector(size_t size);
 void ExpandVector(Vector v);
 
 #endif //SCC_VECTOR_H
