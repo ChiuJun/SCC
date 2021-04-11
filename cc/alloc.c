@@ -22,9 +22,9 @@ void InitHeap(Heap hp) {
 /*
  * 从当前Heap的最后一个memory_block或者FreeBlocks寻找足够空间并返回
  * 如果空间不够则使用malloc申请新的内存
- * 这种分配策略可能会产生较多内存碎片
+ * TODO:这种分配策略可能会产生较多内存碎片
  * */
-void *HeapAllocate(Head hp, size_t size) {
+void *HeapAllocate(Heap hp, size_t size) {
     size = ALIGN(size, sizeof(union align_util));
     struct memory_block *blk = hp->lastBlockPtr;
 

@@ -2,6 +2,7 @@
 // Created by LJChi on 2021/3/28.
 //
 #include <stdarg.h>
+#include <stdlib.h>
 #include "error.h"
 
 void DoFatal(const char *format, ...) {
@@ -9,7 +10,7 @@ void DoFatal(const char *format, ...) {
 
     fprintf(stderr, "fatal error:");
     va_start(ap, format);
-    vprintf(stderr, format, ap);
+    vfprintf(stderr, format, ap);
     fprintf(stderr, "\n");
     va_end(ap);
 
@@ -21,7 +22,7 @@ void DoError(const char *format, ...) {
 
     fprintf(stderr, "error:");
     va_start(ap, format);
-    vprintf(stderr, format, ap);
+    vfprintf(stderr, format, ap);
     fprintf(stderr, "\n");
     va_end(ap);
 }
@@ -31,7 +32,7 @@ void DoWarning(const char *format, ...) {
 
     fprintf(stderr, "warning:");
     va_start(ap, format);
-    vprintf(stderr, format, ap);
+    vfprintf(stderr, format, ap);
     fprintf(stderr, "\n");
     va_end(ap);
 }
