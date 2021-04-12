@@ -175,3 +175,29 @@ The  ftell()  function  obtains  the current value of the file position indicato
 - 聚合初始化
 > The initializer for a structure or union object that has automatic storage duration either shall be a initializer list as described below, or shall be a single expression that has compatible struct or union type. In latter case, the initial calue of the object is that of the expression.
 - 程序分为3个Heap：ProgramHeap、FileHeap、StringHeap
+
+## 0411日志
+- 公共工具
+    - input.c 文件输入
+    - output.c 文件输出
+    - vector.c Vector类型支持  
+    - error.c 错误报告
+- 基础模块
+    - alloc.c 内存管理
+    - type.c 类型子系统
+    - symbol.c 符号表管理
+
+### Vector
+```c
+/*
+ * 仿照C++的Vector容器，扩张策略为capacity翻倍
+ * data为void *指针数组，分别指向对应的数据
+ * size为当前Vector实际使用的大小
+ * capacity为当前Vector预分配的大小
+ * */
+typedef struct vector {
+    void **data;
+    int size;
+    int capacity;
+} *Vector;
+```
