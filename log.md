@@ -175,7 +175,26 @@ The  ftell()  function  obtains  the current value of the file position indicato
 - 聚合初始化
 > The initializer for a structure or union object that has automatic storage duration either shall be a initializer list as described below, or shall be a single expression that has compatible struct or union type. In latter case, the initial calue of the object is that of the expression.
 - 程序分为3个Heap：ProgramHeap、FileHeap、StringHeap
+```c
+/*
+ * 内存块总可用范围[begin,end)
+ * 内存块当前可用范围[avail,end)
+ * */
+struct memory_block {
+    struct memory_block *next;
+    /*内存块起始地址*/
+    char *begin;
+    /*内存块可用地址*/
+    char *avail;
+    /*内存块结束地址*/
+    char *end;
+};
 
+typedef struct heap {
+    struct memory_block *lastBlockPtr;
+    struct memory_block headBlock;
+} *Heap;
+```
 ## 0411日志
 - 公共工具
     - input.c 文件输入
@@ -201,3 +220,38 @@ typedef struct vector {
     int capacity;
 } *Vector;
 ```
+
+## 0412日志
+### 文件输入模块&错误报告模块
+```c
+/*
+ * 坐标 记录当前处理的位置
+ * 用于出错时指示出错位置
+ * */
+typedef struct coord{
+    /*源文件文件名*/
+    char *src_filename;
+    /*源文件行号*/
+    int src_line;
+    /*预处理文件的行号*/
+    int pp_line;
+    /*预处理文件的列*/
+    int col;
+} *Coord;
+
+struct input{
+    /*文件名*/
+    char *filename;
+    /*对应文件在内存中的起始位置*/
+    unsigned char *base;
+    /*当前处理的位置*/
+    unsigned char *cursor;
+    /*当前行的头部位置*/
+    unsigned char *line_head;
+    /*当前处理的行*/
+    int line;
+    /*文件大小*/
+    unsigned long file_size;
+};
+```
+- 完成论文2.1节
