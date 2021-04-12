@@ -1,9 +1,8 @@
 //
 // Created by LJChi on 2021/3/28.
 //
-#include <stdarg.h>
-#include <stdlib.h>
-#include "error.h"
+
+#include "cc.h"
 
 void DoFatal(const char *format, ...) {
     va_list ap;
@@ -17,9 +16,13 @@ void DoFatal(const char *format, ...) {
     exit(-1);
 }
 
-void DoError(const char *format, ...) {
+void DoError(Coord current_coord, const char *format, ...) {
     va_list ap;
 
+    ErrorCount++;
+    if(current_coord != NULL){
+        fprintf(stderr,"(%s,%d):",current_coord->src_filename,current_coord->src_line);
+    }
     fprintf(stderr, "error:");
     va_start(ap, format);
     vfprintf(stderr, format, ap);
@@ -27,9 +30,13 @@ void DoError(const char *format, ...) {
     va_end(ap);
 }
 
-void DoWarning(const char *format, ...) {
+void DoWarning(Coord current_coord, const char *format, ...) {
     va_list ap;
 
+    WarningCount++;
+    if(current_coord != NULL){
+        fprintf(stderr,"(%s,%d):",current_coord->src_filename,current_coord->src_line);
+    }
     fprintf(stderr, "warning:");
     va_start(ap, format);
     vfprintf(stderr, format, ap);
