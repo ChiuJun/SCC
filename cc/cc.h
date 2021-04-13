@@ -8,13 +8,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdarg.h>
+#include <assert.h>
 #include <stddef.h>
 #include <string.h>
 
 #include "input.h"
+#include "output.h"
 #include "error.h"
 #include "alloc.h"
 #include "vector.h"
+#include "type.h"
 
 extern Heap CurrentHeap;
 extern struct heap ProgramHeap;

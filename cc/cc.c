@@ -26,31 +26,13 @@ int ErrorCount;
 int WarningCount;
 
 static int ParseCommandLine(int argc, char *argv[]){
-
-}
-
-void testInput(void){
-    Coord current_coord = NULL;
-    ALLOC(current_coord);
-    ReadSourceFile("input.c");
-    printf("//filename:%s\n//filesize:%ld\n",Input.filename,Input.file_size);
-    if(Input.base[Input.file_size] == END_OF_FILE){
-        Input.base[Input.file_size] = 0;
-    }
-    printf("%s\n",Input.base);
-    CloseSourceFile();
-
-    current_coord->src_filename = Input.filename;
-    current_coord->src_line = current_coord->pp_line = current_coord->col = 1;
-    Error(current_coord,"[test error.h]\n");
+    return 0;
 }
 
 int main(int argc, char *argv[]) {
-    int i;
-
     CurrentHeap = &ProgramHeap;
     argc--,argv++;
-    testInput();
+    ParseCommandLine(argc,argv);
 
     return 0;
 }
