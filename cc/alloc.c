@@ -71,7 +71,7 @@ void *HeapAllocate(Heap hp, size_t size) {
  * 并不真正回收空间，只是挂载至FreeBlocks
  * */
 void FreeHeap(Heap hp) {
-    struct memory_block *blk = &hp->headBlock.next;
+    struct memory_block *blk = hp->headBlock.next;
     while (blk != NULL) {
         blk->avail = blk->begin;
         blk = blk->next;
