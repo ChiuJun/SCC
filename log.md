@@ -255,3 +255,38 @@ struct input{
 };
 ```
 - 完成论文2.1节
+
+## 0413日志
+### 类型子系统
+```c
+#define TYPE_COMMON     \
+    int category : 8;   \
+    int qualify : 8;    \
+    int align   : 16;   \
+    int size;           \
+    struct type *base_type;
+    
+typedef struct field {
+    char *field_id;
+    int offset;
+    /*位域成员使用：大小*/
+    int bits;
+    /*位域成员使用：偏移bit数*/
+    int pos;
+    Type field_type;
+    struct field *next_field_ptr;
+} *Field;
+
+typedef struct recordType {
+    TYPE_COMMON
+    char *record_id;
+    Field record_fields;
+    Field *tail_field_ptr;
+    /*是否包含constant field*/
+    int hasConstField: 16;
+    /*是否包含flexible array*/
+    int hasFlexArray: 16;
+    int isComplete;
+} *RecordType;
+```
+- recordType的构造还有问题
