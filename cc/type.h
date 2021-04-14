@@ -49,7 +49,7 @@ enum {
     int category : 8;   \
     int qualify : 8;    \
     int align   : 16;   \
-    int szie;           \
+    int size;           \
     struct type *base_type;
 
 typedef struct type {
@@ -142,24 +142,26 @@ int IsIncompleteRecord(Type ty);
 int IsZeroSizeArray(Type ty);
 int IsIncompleteType(Type ty, int ignoreZeroArray);
 
-
-Type Enum(char *id);
+/*static Type DoTypeClone(Type ty);*/
 Type Qualify(int qualify, Type ty);
 Type RemoveQualify(Type ty);
+Type Enum(char *id);
 Type PointerTo(Type ty);
 Type ArrayOf(int len, Type ty);
 Type FunctionReturn(Type ty, Signature sig);
 Type Promote(Type ty);
+Type AdjustParameter(Type ty);
 
 Type  StartRecord(char *id, int category);
 Field AddField(Type ty, char *id, Type fieldTy, int bits);
 Field LookupField(Type ty, char *id);
+void AddOffset(RecordType rty, int offset);
 void EndRecord(Type ty, Coord coord);
 
+/*static int IsCompatibleFunction(FunctionType fty1, FunctionType fty2);*/
 int  IsCompatibleType(Type ty1, Type ty2);
 Type CompositeType(Type ty1, Type ty2);
-Type CommonFPType(Type ty1, Type ty2);
-Type AdjustParameter(Type ty);
+Type CommonRealType(Type ty1, Type ty2);
 
 void SetupTypeSystem(void);
 

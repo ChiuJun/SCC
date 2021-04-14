@@ -33,6 +33,7 @@ int main(int argc, char *argv[]) {
     CurrentHeap = &ProgramHeap;
     argc--,argv++;
     ParseCommandLine(argc,argv);
+    SetupTypeSystem();
 
     return 0;
 }
