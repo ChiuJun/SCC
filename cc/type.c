@@ -78,7 +78,6 @@ char *TypeToString(Type ty) {
         case ARRAY:
             return FormatName("%s[%s]", TypeToString(ty->base_type), ty->size / ty->base_type->size);
         case FUNCTION:
-            /*TODO:没生成参数*/
             return FormatName("%s()", TypeToString(((FunctionType) ty)->base_type));
         default:
             Fatal("unknown type category");
