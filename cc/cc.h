@@ -20,6 +20,11 @@
 #include "str.h"
 #include "type.h"
 
+extern FILE *ASTFile;
+extern FILE *IRFIle;
+extern FILE *ASMFile;
+extern char *ASMExtName;
+extern char *ASMFileName;
 extern Heap CurrentHeap;
 extern struct heap ProgramHeap;
 extern struct heap FileHeap;

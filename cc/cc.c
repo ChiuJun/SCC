@@ -3,6 +3,16 @@
 //
 #include "cc.h"
 
+/*输出语法树文件时的文件指针*/
+FILE *ASTFile;
+/*输出中间代码文件时的文件指针*/
+FILE *IRFIle;
+/*输出汇编代码文件时的文件指针*/
+FILE *ASMFile;
+/*汇编代码文件的扩展名*/
+char *ASMExtName = ".s";
+/*汇编代码文件的文件名*/
+char *ASMFileName = NULL;
 /*用于指向当前操作的Heap:ProgramHeap或者FileHeap*/
 Heap CurrentHeap;
 /*
@@ -29,21 +39,34 @@ static int ParseCommandLine(int argc, char *argv[]){
     return 0;
 }
 
-void testStr(void){
-    char *test = "test 1";
-    char *res1 = FormatName("test %d",1);
-    char *res2 = FormatName("%s",test);
-    assert(res1==res2);
-
-    char *res3 = IdentifierName("test 2",6);
-    char *res4 = IdentifierName("test 3",6);
-    assert(res3!=res4);
-
-    String str;
-    ALLOC(str);
-    AppendSTR(str,res1,6,0);
-    AppendSTR(str,"append content",strlen("append content"),0);
-    assert(str->len==6+strlen("append content"));
+void testOutput(void){
+    char * fileName = "output.c";
+    ASMFile = CreateOutput("test.c",ASMExtName);
+    LeftAlign(ASMFile,4);
+    Print("####test module:%s####",fileName);
+    PutChar('\n');
+    Flush();
+    PutString("void testOutput(void){\n"
+              "    char * fileName = \"output.c\";\n"
+              "    ASMFile = CreateOutput(\"testOut.c\",\".s\");\n"
+              "    LeftAlign(ASMFile,4);\n"
+              "    Print(\"####test module:%s####\",fileName);\n"
+              "    PutChar('\\n');\n"
+              "    Flush();\n"
+              "    PutString(\"void testOutput(void){\\n\"\n"
+              "              \"    char * fileName = \\\"output.c\\\";\\n\"\n"
+              "              \"    ASMFile = CreateOutput(\\\"testOut.c\\\",\\\".s\\\");\\n\"\n"
+              "              \"    LeftAlign(ASMFile,4);\\n\"\n"
+              "              \"    Print(\\\"####test module:%s####\\\",fileName);\\n\"\n"
+              "              \"    PutChar('\\\\n');\\n\"\n"
+              "              \"    Flush();\\n\"\n"
+              "              \"    fclose(ASMFile);\\n\"\n"
+              "              \"}\");\n"
+              "    Flush();\n"
+              "    fclose(ASMFile);\n"
+              "}");
+    Flush();
+    fclose(ASMFile);
 }
 
 int main(int argc, char *argv[]) {
@@ -52,7 +75,7 @@ int main(int argc, char *argv[]) {
     ParseCommandLine(argc,argv);
     SetupTypeSystem();
 
-    testStr();
+    testOutput();
 
     return 0;
 }
