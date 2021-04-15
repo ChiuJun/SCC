@@ -289,8 +289,7 @@ Field AddField(Type ty, char *id, Type fieldTy, int bits) {
 
 Field LookupField(Type ty, char *id) {
     RecordType recordType = (RecordType) ty;
-    /*TODO:头节点似乎没有初始化*/
-    Field fld = recordType->record_fields->next_field_ptr;
+    Field fld = recordType->record_fields;
     while (fld != NULL) {
         if (fld->field_id == NULL && IsRecordType(fld->field_type)) {
             /*匿名struct union成员，递归查找*/
@@ -308,8 +307,7 @@ Field LookupField(Type ty, char *id) {
 }
 
 void AddOffset(RecordType rty, int offset) {
-    /*TODO:头节点似乎没有初始化*/
-    Field fld = rty->record_fields->next_field_ptr;
+    Field fld = rty->record_fields;
     while (fld) {
         fld->offset += offset;
         if (fld->field_id == NULL && IsRecordType(fld->field_type)) {
@@ -321,8 +319,7 @@ void AddOffset(RecordType rty, int offset) {
 
 void EndRecord(Type ty, Coord coord) {
     RecordType recordType = (RecordType) ty;
-    /*TODO:头节点似乎没有初始化*/
-    Field fld = recordType->record_fields->next_field_ptr;
+    Field fld = recordType->record_fields;
     int bits = 0;
     int intTypeBits = T(INT)->size * 8;
     if (recordType->category == STRUCT) {
