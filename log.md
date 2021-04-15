@@ -265,7 +265,7 @@ struct input{
     int align   : 16;   \
     int size;           \
     struct type *base_type;
-    
+
 typedef struct field {
     char *field_id;
     int offset;
@@ -289,4 +289,10 @@ typedef struct recordType {
     int isComplete;
 } *RecordType;
 ```
+> 《C编译器剖析》2.4   
+C编译器对旧式风格的函数会进行一个被称为“实参提升”的动作，C编译器对变参函数中的无名参数也会进行实参提升。
 - recordType的构造还有问题
+
+## 0415日志
+- 完成文件输出处理模块
+- 文件输出处理模块只有```LeftAlign```函数操作了其他的文件流，其他文件如何输出？
