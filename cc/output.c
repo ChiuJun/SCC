@@ -4,18 +4,13 @@
 
 #include "cc.h"
 
-/*
- * TODO:InternName
- * */
-char *FormatName(const char *fmt, ...) {
-    char *buf = HeapAllocate(CurrentHeap, 256);
-    /*TODO:
-     * char buf[256];*/
+char* FormatName(const char *fmt, ...) {
+    char buf[256];
     va_list ap;
 
     va_start(ap, fmt);
-    vsnprintf(buf, 256, fmt, ap);
+    vsnprintf(buf, sizeof(buf), fmt, ap);
     va_end(ap);
 
-    return buf;
+    return IdentifierName(buf,strlen(buf));
 }

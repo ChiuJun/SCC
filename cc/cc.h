@@ -17,6 +17,7 @@
 #include "error.h"
 #include "alloc.h"
 #include "vector.h"
+#include "str.h"
 #include "type.h"
 
 extern Heap CurrentHeap;
