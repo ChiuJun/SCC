@@ -3,10 +3,14 @@
 //
 #include "cc.h"
 
+/*是否输出语法树*/
+static int DumpAST;
+/*是否输出中间代码*/
+static int DumpIR;
 /*输出语法树文件时的文件指针*/
 FILE *ASTFile;
 /*输出中间代码文件时的文件指针*/
-FILE *IRFIle;
+FILE *IRFile;
 /*输出汇编代码文件时的文件指针*/
 FILE *ASMFile;
 /*汇编代码文件的扩展名*/
@@ -35,47 +39,50 @@ int ErrorCount;
 /*警告数*/
 int WarningCount;
 
-static int ParseCommandLine(int argc, char *argv[]){
-    return 0;
+static int ParseCommandLine(int argc, char *argv[]) {
+    /*参见scc.c GenCommand() 输入文件放在参数的最后面*/
+    int idx;
+    for (idx = 0; idx < argc; ++idx) {
+        if (strcmp(argv[idx], "-o") == 0) {
+            ++idx;
+            ASMFileName = argv[idx];
+        } else if (strcmp(argv[idx], "--dump-ast") == 0) {
+            DumpAST = 1;
+        } else if (strcmp(argv[idx], "--dump-IR") == 0) {
+            DumpIR = 1;
+        } else {
+            return idx;
+        }
+    }
+    return idx;
 }
 
-void testOutput(void){
-    char * fileName = "output.c";
-    ASMFile = CreateOutput("test.c",ASMExtName);
-    LeftAlign(ASMFile,4);
-    Print("####test module:%s####",fileName);
-    PutChar('\n');
-    Flush();
-    PutString("void testOutput(void){\n"
-              "    char * fileName = \"output.c\";\n"
-              "    ASMFile = CreateOutput(\"testOut.c\",\".s\");\n"
-              "    LeftAlign(ASMFile,4);\n"
-              "    Print(\"####test module:%s####\",fileName);\n"
-              "    PutChar('\\n');\n"
-              "    Flush();\n"
-              "    PutString(\"void testOutput(void){\\n\"\n"
-              "              \"    char * fileName = \\\"output.c\\\";\\n\"\n"
-              "              \"    ASMFile = CreateOutput(\\\"testOut.c\\\",\\\".s\\\");\\n\"\n"
-              "              \"    LeftAlign(ASMFile,4);\\n\"\n"
-              "              \"    Print(\\\"####test module:%s####\\\",fileName);\\n\"\n"
-              "              \"    PutChar('\\\\n');\\n\"\n"
-              "              \"    Flush();\\n\"\n"
-              "              \"    fclose(ASMFile);\\n\"\n"
-              "              \"}\");\n"
-              "    Flush();\n"
-              "    fclose(ASMFile);\n"
-              "}");
-    Flush();
-    fclose(ASMFile);
+static void Initialize(void) {
+    CurrentHeap = &FileHeap;
+    ErrorCount = WarningCount = 0;
+    ASTFile = IRFile = ASMFile = NULL;
+    InitSymbolTable();
+}
+
+static void Finalize(void) {
+    FreeHeap(&FileHeap);
+}
+
+static void Compile(char *file) {
+    Initialize();
+    printf("%s\n", file);
+    Finalize();
 }
 
 int main(int argc, char *argv[]) {
+    int idx = ParseCommandLine(--argc, ++argv);
     CurrentHeap = &ProgramHeap;
-    argc--,argv++;
-    ParseCommandLine(argc,argv);
+
     SetupTypeSystem();
 
-    testOutput();
+    while (idx < argc) {
+        Compile(argv[idx++]);
+    }
 
-    return 0;
+    return ErrorCount != 0;
 }

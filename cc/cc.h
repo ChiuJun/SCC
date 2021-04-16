@@ -19,9 +19,13 @@
 #include "vector.h"
 #include "str.h"
 #include "type.h"
+#include "lex.h"
+#include "symbol.h"
+#include "gen.h"
+#include "ast.h"
 
 extern FILE *ASTFile;
-extern FILE *IRFIle;
+extern FILE *IRFile;
 extern FILE *ASMFile;
 extern char *ASMExtName;
 extern char *ASMFileName;
