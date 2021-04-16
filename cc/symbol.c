@@ -52,7 +52,7 @@ static Table savedIdentifiers, savedTags;
  * 每次编译一个新的源文件都会调用该函数
  * */
 void InitSymbolTable(void) {
-    int size = sizeof(Symbol) * (SYM_HASH_MASK + 1);;
+    int size = sizeof(Symbol) * (SYM_HASH_MASK + 1);
 
     GlobalTags.buckets = GlobalIDs.buckets = NULL;
     Constants.buckets = HeapAllocate(CurrentHeap, size);
@@ -220,7 +220,7 @@ Symbol AddConstant(Type ty, union value val) {
     Symbol ptr;
 
     ty = RemoveQualify(ty);
-    /* TODO:
+    /* TODO:问题
      * 所有整数型处理成int？
      * LONGDOUBLE型处理成double? 构造语法树的时候浮点数给的都是long double？
      * */
