@@ -299,3 +299,20 @@ C编译器对旧式风格的函数会进行一个被称为“实参提升”的�
 - 完成符号表管理模块
     - 对offset还是不熟悉 
 - 完成论文第一章、第二章
+
+## 0417日志
+### 词法分析模块
+- token.h包含了各种类型的token
+    - 关键字 keywords
+    - 操作符 operators
+    - 标点符号 punctunators
+    - 相比C标准多了
+    ```c
+    TOKEN(TK_END,           "EOF")
+    ```
+    - 相比C标准少了
+    ```
+    ##
+    ```
+- ```setlocale```函数
+> LC-CTYPE affects the behavior of the character handling functions and the multibyte functions.
