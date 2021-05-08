@@ -39,6 +39,8 @@ int ErrorCount;
 /*警告数*/
 int WarningCount;
 
+int CurrentToken;
+
 static int ParseCommandLine(int argc, char *argv[]) {
     /*参见scc.c GenCommand() 输入文件放在参数的最后面*/
     int idx;
@@ -70,7 +72,43 @@ static void Finalize(void) {
 
 static void Compile(char *file) {
     Initialize();
-    printf("%s\n", file);
+    ReadSourceFile(file);
+    TokenCoord.src_filename = Input.filename;
+    TokenCoord.pp_line = TokenCoord.src_line = TokenCoord.col = 1;
+    printf("------------%s------------\n", TokenCoord.src_filename);
+    while ((CurrentToken = GetNextToken()) != TK_END) {
+        printf("token:%d %s", CurrentToken-1, TokenStrings[CurrentToken-1]);
+        switch (CurrentToken) {
+            case TK_ID:
+                printf("----------------------token value:%s",TokenValue.p);
+                break;
+            case TK_INTCONST:
+            case TK_UINTCONST:
+            case TK_LONGCONST:
+            case TK_ULONGCONST:
+            case TK_LLONGCONST:
+            case TK_ULLONGCONST:
+                printf("----------------------token value:%d",TokenValue.i[0]);
+                break;
+            case TK_FLOATCONST:
+                printf("----------------------token value:%f",TokenValue.f);
+                break;
+            case TK_DOUBLECONST:
+            case TK_LDOUBLECONST:
+                printf("----------------------token value:%lf",TokenValue.d);
+                break;
+            case TK_STRING:
+                printf("----------------------token value:%s",((String)TokenValue.p)->content);
+                break;
+            case TK_WIDESTRING:
+                printf("----------------------token value:%ls",((String)TokenValue.p)->content);
+                break;
+            default:
+                break;
+        }
+        printf("\n\t(pp_line:%d src_line:%d col:%d)\n",TokenCoord.pp_line,TokenCoord.src_line,TokenCoord.col);
+    }
+    CloseSourceFile();
     Finalize();
 }
 
@@ -79,6 +117,7 @@ int main(int argc, char *argv[]) {
     CurrentHeap = &ProgramHeap;
 
     SetupTypeSystem();
+    SetupLexer();
 
     while (idx < argc) {
         Compile(argv[idx++]);
