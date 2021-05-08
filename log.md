@@ -312,7 +312,21 @@ C编译器对旧式风格的函数会进行一个被称为“实参提升”的�
     ```
     - 相比C标准少了
     ```
+    #
     ##
     ```
 - ```setlocale```函数
 > LC-CTYPE affects the behavior of the character handling functions and the multibyte functions.
+## 0509日志
+- 一个值得记录的问题  
+对词法分析模块进行测试时发现```TokenStrings```中打印的符合token名字为乱码。
+调用cmake自动生成的makefile的目标```make lex.c.i```发现预处理后的聚合初始化为空，该部分代码如下：
+    ```c
+    char *TokenStrings[] =
+            {
+    #define TOKEN(k, s) s,
+    #include "token.h"
+    #undef  TOKEN
+            };
+    ```
+    发现问题在于CLion对于添加的头文件自动添加了防止重复包含的宏```SCC_TOKEN_H```，解决方法为在包含该头文件之前使用预处理指令```#undef SCC_TOKEN_H```或者删除token.h文件中防止重复包含的预处理指令。
