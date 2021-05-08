@@ -11,7 +11,7 @@
  * */
 typedef struct coord{
     /*源文件文件名*/
-    char *src_filename;
+    unsigned char *src_filename;
     /*源文件行号*/
     int src_line;
     /*预处理文件的行号*/
@@ -22,7 +22,7 @@ typedef struct coord{
 
 struct input{
     /*文件名*/
-    char *filename;
+    unsigned char *filename;
     /*对应文件在内存中的起始位置*/
     unsigned char *base;
     /*当前处理的位置*/

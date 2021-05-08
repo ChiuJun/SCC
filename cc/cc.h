@@ -9,6 +9,8 @@
 #include <stdlib.h>
 #include <stdarg.h>
 #include <assert.h>
+#include <limits.h>
+#include <errno.h>
 #include <stddef.h>
 #include <string.h>
 

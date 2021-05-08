@@ -30,7 +30,7 @@ void ReadSourceFile(char *filename) {
     Input.file_size = fread(Input.base, 1, Input.file_size, file_ptr);
     fclose(file_ptr);
 
-    Input.filename = filename;
+    Input.filename = (unsigned char *)filename;
     Input.base[Input.file_size] = END_OF_FILE;
     Input.cursor = Input.line_head = Input.base;
     Input.line = 1;

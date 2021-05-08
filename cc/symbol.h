@@ -16,11 +16,6 @@ enum {
     SK_Offset, SK_String, SK_Label, SK_Function, SK_Register, SK_IRegister
 };
 
-
-enum{
-    TK_AUTO, TK_EXTERN, TK_REGISTER, TK_STATIC
-};
-
  /*
   * symbol_kind 符号类型 SK_Tag...SK_IRegister
   * name 符号的标识符即名字
