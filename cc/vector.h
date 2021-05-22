@@ -42,6 +42,8 @@ do{                                 \
     }                               \
 }
 
+#define VECTOR_SIZE(v)   (v->size)
+
 Vector CreateVector(size_t size);
 void ExpandVector(Vector v);
 

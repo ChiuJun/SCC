@@ -76,7 +76,11 @@ static void Compile(char *file) {
     translationUnit = ParseTranslationUnit(file);
     if(ErrorCount != 0)
         goto exit;
-    
+
+    CheckTranslationUnit(translationUnit);
+    if(ErrorCount != 0)
+        goto exit;
+
     exit:
     Finalize();
 }

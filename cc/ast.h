@@ -84,6 +84,7 @@ AstTranslationUnit ParseTranslationUnit(char *file);
 int IsTypeName(int tok);
 
 void PostCheckTypedef(void);
+void CheckTranslationUnit(AstTranslationUnit transUnit);
 
 extern int CurrentToken;
 extern int FIRST_Declaration[];

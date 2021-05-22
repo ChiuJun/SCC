@@ -316,4 +316,10 @@ struct astTranslationUnit {
     AstNode externalDeclarations;
 };
 
+void CheckLocalDeclaration(AstDeclaration decl, Vector v);
+Type CheckTypeName(AstTypeName tname);
+
+extern AstFunction CURRENTF;
+#define	IsRecordSpecifier(spec)	(spec->astNodeKind == NK_StructSpecifier || spec->astNodeKind == NK_UnionSpecifier)
+
 #endif //SCC_DECL_H
