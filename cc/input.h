@@ -11,7 +11,7 @@
  * */
 typedef struct coord{
     /*源文件文件名*/
-    unsigned char *src_filename;
+    char *src_filename;
     /*源文件行号*/
     int src_line;
     /*预处理文件的行号*/

@@ -70,12 +70,12 @@ static void ScanPPLine(void) {
         while (*CURSOR == ' ' || *CURSOR == '\t') {
             CURSOR++;
         }
-        TokenCoord.src_filename = ++CURSOR;
+        TokenCoord.src_filename = (char *)++CURSOR;
         while (*CURSOR != '"' && !IS_EOF(CURSOR) && *CURSOR != '\n') {
             CURSOR++;
         }
-        TokenCoord.src_filename = (unsigned char *) IdentifierName((char *) TokenCoord.src_filename,
-                                                                   CURSOR - TokenCoord.src_filename);
+        TokenCoord.src_filename = IdentifierName((char *) TokenCoord.src_filename,
+                                                                   CURSOR - (unsigned char *)TokenCoord.src_filename);
     }
     while (*CURSOR != '\n' && !IS_EOF(CURSOR)) {
         CURSOR++;
@@ -356,6 +356,8 @@ static int ScanStringLiteral(void) {
 static int FindKeyword(char *str, int len) {
     struct keyword *p = NULL;
     int index = ToUpper(*str) - 'A';
+    if(*str == '_')
+        return TK_ID;
 
     p = keywords[index];
     while (p->name) {

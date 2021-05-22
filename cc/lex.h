@@ -5,6 +5,10 @@
 #ifndef SCC_LEX_H
 #define SCC_LEX_H
 
+/*
+ * TK_BEGIN用于占位，使token枚举从1开始
+ * 方便后期函数编写
+ * */
 enum token {
     TK_BEGIN,
 #define TOKEN(k, s) k,
