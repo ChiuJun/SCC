@@ -191,7 +191,7 @@ static AstExpression PromoteArgument(AstExpression arg) {
  */
 static AstExpression CheckArgument(FunctionType fty, AstExpression arg, int argNo, int *argFull) {
     Parameter param;
-    int parLen = VECTOR_SIZE(fty->sig->params);
+    int parLen = GET_VECTOR_SIZE(fty->sig->params);
 
     arg = Adjust(CheckExpression(arg), 1);
 
@@ -280,7 +280,7 @@ static AstExpression CheckFunctionCall(AstExpression expr) {
         parameters in a function definition that does not include a function
         prototype declarator.
      */
-    if (argNo > VECTOR_SIZE(((FunctionType) ty)->sig->params)) {
+    if (argNo > GET_VECTOR_SIZE(((FunctionType) ty)->sig->params)) {
         if (((FunctionType) ty)->sig->hasProto) {
             if (!((FunctionType) ty)->sig->hasEllipsis) {
                 Error(&expr->astNodeCoord, "Too many arguments");
@@ -288,7 +288,7 @@ static AstExpression CheckFunctionCall(AstExpression expr) {
         } else {
             Warning(&expr->astNodeCoord, "Too many arguments");
         }
-    } else if (argNo < VECTOR_SIZE(((FunctionType) ty)->sig->params)) {
+    } else if (argNo < GET_VECTOR_SIZE(((FunctionType) ty)->sig->params)) {
         if (((FunctionType) ty)->sig->hasProto) {
             Error(&expr->astNodeCoord, "Too few arguments");
         } else {

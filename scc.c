@@ -29,7 +29,7 @@ static void ShowHelp(void) {
             "  -Uname         Undefine the preprocess macro 'name'.\n"
             "  -h             Show this help information.\n"
             "  -v             Display the programs invoked by the compiler.\n"
-            "  --dump-ast     Dump syntax tree which is put into a file named xxx.ast.\n"
+            "  --dump-AST     Dump syntax tree which is put into a file named xxx.ast.\n"
             "  --dump-IR      Dump intermediate code which is put into a file named xxx.uil.\n"
             "  -Wa,<options>  Pass comma-separated <options> on to the assembler.\n"
             "  -Wl,<options>  Pass comma-separated <options> on to the linker.\n"
@@ -188,7 +188,7 @@ static void ParseCmdLine(int argc, char *argv[]) {
             exit(0);
         } else if (!strcmp(argv[i], "-v")) {
             Option.verbose = 1;
-        } else if (!strcmp(argv[i], "--dump-ast") ||
+        } else if (!strcmp(argv[i], "--dump-AST") ||
                    !strcmp(argv[i], "--dump-IR")) {
             Option.c_flags = ListAppend(Option.c_flags, argv[i]);
         } else if (!strncmp(argv[i], "-Wa,", 4)) {

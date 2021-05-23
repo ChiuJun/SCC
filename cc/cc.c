@@ -47,7 +47,7 @@ static int ParseCommandLine(int argc, char *argv[]) {
         if (strcmp(argv[idx], "-o") == 0) {
             ++idx;
             ASMFileName = argv[idx];
-        } else if (strcmp(argv[idx], "--dump-ast") == 0) {
+        } else if (strcmp(argv[idx], "--dump-AST") == 0) {
             DumpAST = 1;
         } else if (strcmp(argv[idx], "--dump-IR") == 0) {
             DumpIR = 1;

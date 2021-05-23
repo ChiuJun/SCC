@@ -546,7 +546,7 @@ static void CheckParameterDeclaration(AstFunctionDeclarator funcDec,
     CheckDeclarator(paramDecl->dec);
     // f(void)		?
     if (paramDecl->dec->id == NULL && paramDecl->dec->tyDrvList == NULL &&
-        ty->category == VOID && VECTOR_SIZE(funcDec->sig->params) == 0) {
+        ty->category == VOID && GET_VECTOR_SIZE(funcDec->sig->params) == 0) {
         if (paramDecl->next || ty->qualify || paramDecl->specs->sclass) {
             Error(&paramDecl->astNodeCoord, "'void' must be the only parameter");
             paramDecl->next = NULL;
@@ -633,7 +633,7 @@ static void CheckFunctionDeclarator(AstFunctionDeclarator dec) {
                 char*, id, funcDec->ids)
                 AddParameter(funcDec->sig->params, id, NULL, 0, &funcDec->astNodeCoord);
         END_FOR_EACH_VECTOR_ITEM
-    } else if (VECTOR_SIZE(funcDec->ids)) {    // void f(a,b,c);		see examples/function/oldstyle.c
+    } else if (GET_VECTOR_SIZE(funcDec->ids)) {    // void f(a,b,c);		see examples/function/oldstyle.c
         Error(&funcDec->astNodeCoord, "Identifier list should be in definition.");
     }
     ALLOC(funcDec->tyDrvList);

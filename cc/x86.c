@@ -1010,7 +1010,7 @@ static void EmitCall(IRInst inst) {
     stksize = 0;
     rty = inst->ty;
 
-    for (i = VECTOR_SIZE(args) - 1; i >= 0; --i) {
+    for (i = GET_VECTOR_SIZE(args) - 1; i >= 0; --i) {
         arg = GET_VECTOR_ITEM(args, i);
         PushArgument(arg->sym, arg->ty);
         if (arg->sym->symbol_kind != SK_Function) arg->sym->ref--;

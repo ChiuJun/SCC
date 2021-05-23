@@ -117,9 +117,9 @@ static void DisassemblyUIL(IRInst inst) {
             }
             //	printf(t0, t1);
             fprintf(IRFile, "%s(", SRC1->name);
-            for (i = 0; i < VECTOR_SIZE(args); ++i) {
+            for (i = 0; i < GET_VECTOR_SIZE(args); ++i) {
                 arg = GET_VECTOR_ITEM(args, i);
-                if (i != VECTOR_SIZE(args) - 1)
+                if (i != GET_VECTOR_SIZE(args) - 1)
                     fprintf(IRFile, "%s, ", arg->sym->name);
                 else
                     fprintf(IRFile, "%s", arg->sym->name);

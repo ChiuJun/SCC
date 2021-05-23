@@ -663,7 +663,7 @@ static void TranslateCompoundStatement(AstStatement stmt) {
     Symbol v;
     int i;
 
-    for (i = 0; i < VECTOR_SIZE(ilocals); ++i) {
+    for (i = 0; i < GET_VECTOR_SIZE(ilocals); ++i) {
         InitData initd;
         Type ty;
         Symbol dst, src;
