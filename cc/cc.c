@@ -2,6 +2,7 @@
 // Created by LJChi on 2021/3/20.
 //
 #include "cc.h"
+#include "target.h"
 
 /*是否输出语法树*/
 static int DumpAST;
@@ -83,6 +84,8 @@ static void Compile(char *file) {
 
     Translate(translationUnit);
 
+    EmitTranslationUnit(translationUnit);
+
     exit:
     Finalize();
 }
@@ -93,6 +96,7 @@ int main(int argc, char *argv[]) {
 
     SetupTypeSystem();
     SetupLexer();
+    SetupRegisters();
 
     while (idx < argc) {
         Compile(argv[idx++]);
