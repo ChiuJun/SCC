@@ -85,6 +85,7 @@ int IsTypeName(int tok);
 
 void PostCheckTypedef(void);
 void CheckTranslationUnit(AstTranslationUnit transUnit);
+void Translate(AstTranslationUnit transUnit);
 
 extern int CurrentToken;
 extern int FIRST_Declaration[];

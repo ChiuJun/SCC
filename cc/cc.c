@@ -81,6 +81,8 @@ static void Compile(char *file) {
     if(ErrorCount != 0)
         goto exit;
 
+    Translate(translationUnit);
+
     exit:
     Finalize();
 }
