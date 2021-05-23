@@ -82,6 +82,10 @@ static void Compile(char *file) {
     if(ErrorCount != 0)
         goto exit;
 
+    if (DumpAST) {
+        DumpTranslationUnit(translationUnit);
+    }
+
     Translate(translationUnit);
 
     if (DumpIR) {
