@@ -551,7 +551,7 @@ void SetupTypeSystem(void) {
     T(POINTER)->size = POINTER_SIZE;
     T(POINTER)->base_type = T(INT);
 
-    for (idx = CHAR; idx < VOID; ++idx){
+    for (idx = CHAR; idx <= VOID; ++idx){
         T(idx)->category = idx;
         T(idx)->align = T(idx)->size;
     }
