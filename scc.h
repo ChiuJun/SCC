@@ -5,7 +5,7 @@
 #ifndef SCC_SCC_H
 #define SCC_SCC_H
 
-#define SCCDIR "/home/jiabi/ucc/bin/"
+#define SCC_DIR "/home/jiabi/SCC/bin/"
 
 /**
  * PP_FILE:PreprocessFile
@@ -40,12 +40,12 @@ char *CPPCmd[] =
         {
                 "/usr/bin/gcc", "-m32", "-U__GNUC__", "-D_POSIX_SOURCE", "-D__STRICT_ANSI__",
                 "-Dunix", "-Di386", "-Dlinux", "-D__unix__", "-D__i386__", "-D__linux__",
-                "-D__signed__=signed", "-D_UCC", "-I" SCCDIR "include", "$1", "-E", "$2", "-o", "$3", 0
+                "-D__signed__=signed", "-I" SCC_DIR "include", "$1", "-E", "$2", "-o", "$3", 0
         };
 
 char *CCCmd[] =
         {
-                SCCDIR "ucl", "-o", "$3", "$1", "$2", 0
+                SCC_DIR "cc", "-o", "$3", "$1", "$2", 0
         };
 
 char *ASCmd[] =
@@ -55,7 +55,7 @@ char *ASCmd[] =
 
 char *LDCmd[] =
         {
-                "/usr/bin/gcc", "-m32", "-o", "$3", "$1", "$2", SCCDIR "assert.o", "-lc", "-lm", 0
+                "/usr/bin/gcc", "-m32", "-o", "$3", "$1", "$2", SCC_DIR "assert.o", "-lc", "-lm", 0
         };
 
 #endif
