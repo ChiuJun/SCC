@@ -88,6 +88,8 @@ void CheckTranslationUnit(AstTranslationUnit transUnit);
 void Translate(AstTranslationUnit transUnit);
 void EmitTranslationUnit(AstTranslationUnit transUnit);
 
+void DisassemblyTranslationUnit(AstTranslationUnit transUnit);
+
 extern int CurrentToken;
 extern int FIRST_Declaration[];
 

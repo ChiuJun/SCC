@@ -84,6 +84,10 @@ static void Compile(char *file) {
 
     Translate(translationUnit);
 
+    if (DumpIR) {
+        DisassemblyTranslationUnit(translationUnit);
+    }
+
     EmitTranslationUnit(translationUnit);
 
     exit:
