@@ -1674,9 +1674,6 @@ void Segment(int seg) {
     }
 }
 
-void Import(Symbol p) {
-}
-
 /**
 	 .globl  f
 

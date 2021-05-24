@@ -84,9 +84,7 @@ static void EmitGlobals(void) {
         }
 
         if (p->storage_class == TK_EXTERN && initd == NULL) {
-            if (p->ref > 0) {
-                Import(p);
-            }
+
         } else if (initd == NULL) {
             DefineCommData(p);
         } else {
@@ -155,23 +153,6 @@ static void EmitGlobals(void) {
 }
 
 /**
-	Output some directives in assembly file to declare external funcions:
-		Print("EXTRN %s:NEAR32\n\n", GetAccessName(p));
- */
-static void ImportFunctions(void) {
-    Symbol p = Functions;
-
-    while (p) {
-        // If it is a function undefined and referenced in current tranlate unit,
-        // declare the extern functions in  asm file.
-        if (!p->defined && p->ref) {
-            Import(p);
-        }
-        p = p->next;
-    }
-}
-
-/**
  * Emit all the functions
  */
 static void EmitFunctions(AstTranslationUnit transUnit) {
@@ -217,8 +198,6 @@ void EmitTranslationUnit(AstTranslationUnit transUnit) {
     // ".text\n\n"
     Segment(CODE);
 
-    //win平台才有用
-    ImportFunctions();
     /**
         The key function is
             void EmitFunction(FunctionSymbol fsym)

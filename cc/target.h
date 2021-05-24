@@ -11,7 +11,6 @@ void PutASMCode(int code, Symbol opds[]);
 void SetupRegisters(void);
 void BeginProgram(void);
 void Segment(int seg);
-void Import(Symbol p);
 void Export(Symbol p);
 void DefineGlobal(Symbol p);
 void DefineCommData(Symbol p);
